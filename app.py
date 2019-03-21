@@ -1,8 +1,11 @@
+import os
 from base64 import b64encode
+from collections import OrderedDict
 from typing import List
 from urllib.parse import quote
 
 from flask import Flask, render_template, request, Response
+import yaml
 
 from intent2.alignment import heuristic_alignment, AlignException, gloss_to_morph_align, UnequalTokensException, \
     LangMorphAlignException
@@ -20,10 +23,14 @@ classifier = LRWrapper.load('pos') # type: LRWrapper
 
 @app.route('/')
 def index():
-    sample_txt = '''sun     koomàa   cikin     Daakìn  Indoo
-3p-PERF return-I inside-of room-of Indo
-They returned inside Indo's room'''
-    return render_template('home.html', text=sample_txt)
+    my_dir = os.path.dirname(__file__)
+    with open(os.path.join(my_dir, 'examples.yml')) as f:
+        sorted_dict = OrderedDict()
+        examples = yaml.load(f)
+        for lang in sorted(examples.keys()):
+            sorted_dict[lang] = examples[lang].strip()
+
+    return render_template('home.html', examples=sorted_dict)
 
 def process_instance(text: List[str]) -> Instance:
     inst = Instance.from_strings(text)

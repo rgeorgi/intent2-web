@@ -80,3 +80,8 @@ function bindMouseEvents() {
     $('.tooltip').powerTip();
 }
 
+// For populating the textarea with examples
+function populateTextArea(obj) {
+    var selected = $(obj).find(':selected').val();
+    $('#igt-input').val(selected);
+}

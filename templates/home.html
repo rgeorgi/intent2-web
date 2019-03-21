@@ -22,9 +22,21 @@
                 </UL>
             </p>
         </div>
-        <textarea id="igt-input" rows="3" cols="70">{{ text }}</textarea>
-        <div id="input-button">
-            <input id="process" onclick="doProcess()" type="button" value="Process">
+
+        {% set languages = examples.keys()|list %}
+        <textarea id="igt-input" rows="3" cols="70">{% if languages %}{{ examples[languages[0]] }}{% endif %}</textarea>
+        <div id="buttons">
+            {% if languages %}
+                <span style="font-size: x-small">Preset examples:</span>
+            <select onchange="populateTextArea(this);">
+                {% for example in examples %}
+                    <option value="{{ examples[example] }}">{{ example }}</option>
+                {% endfor %}
+            </select>
+            {% endif %}
+            <div id="input-button">
+                <input id="process" onclick="doProcess()" type="button" value="Process">
+            </div>
         </div>
 
         <div id="error"></div>

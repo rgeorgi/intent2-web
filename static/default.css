@@ -22,6 +22,10 @@
     font-family: 'Inconsolata', monospace;
 }
 
+#buttons div {
+    display:inline-block;
+}
+
 input#process {
     background-color: #5de6e5;
     text-align: center;
@@ -34,6 +38,10 @@ input#process {
 
 input#process:active {
     background-color: grey;
+}
+
+input#process:hover {
+    background-color: rgba(98, 255, 254, 0.58);
 }
 
 #error {
