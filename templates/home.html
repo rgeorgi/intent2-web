@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>INTENT2 Demo</title>
+    {% include 'scripts.html' %}
+</head>
+<body>
+
+    <div id="igt-div">
+        <H2>INTENT2 Demo</H2>
+        <div id="instructions">
+            <p>This is a demonstration of
+                <a href="https://github.com/rgeorgi/INTENT2">INTENT2</a>,
+                a tool for automatic enrichment of <a href="https://en.wikipedia.org/wiki/Interlinear_gloss">
+                    Interlinear Glossed Text (IGT)</a> by <a href="https://ryan.georgi.cc/">Ryan Georgi</a>.</p>
+
+            <p>Please input your IGT below, one line each for Lang, Gloss, and Translation.
+                <UL style="font-size: smaller">
+                    <li>Morpheme segmentation should be indicated with a hyphen (-) and clitics with (=)</li>
+                    <li>Do not use punctuation in the language or gloss lines.</li>
+                </UL>
+            </p>
+        </div>
+        <textarea id="igt-input" rows="3" cols="70">{{ text }}</textarea>
+        <div id="input-button">
+            <input id="process" onclick="doProcess()" type="button" value="Process">
+        </div>
+
+        <div id="error"></div>
+        <div id="instance"></div>
+    </div>
+
+
+</body>
+</html>

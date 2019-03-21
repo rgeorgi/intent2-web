@@ -1,0 +1,145 @@
+<div id="moreinfo">
+    Hover over any of the row headers for more information on the content.
+</div>
+
+<div id="table-container">
+    <table>
+        <tr id="lang-line">
+            <td class="header tooltip" title="
+                Language-line words.">
+                Lang</td>
+            {% for lw in inst.lang %}
+                <td id="{{ lw.id }}" class="selectable"
+                    alntype="gw"
+                    waln="{{ lw.alignments|map(attribute='id')|join(',') }},{{ lw.aligned_words()|map(attribute='id')|join(',') }}"
+                    tags="pos-{{ lw.id }}"
+                    segment="{{ lw.subwords|map(attribute='id')|join(',') }}"
+                    colspan="{{ col_widths[loop.index-1] }}" >{{ lw.hyphenated }}</td>
+            {% endfor %}
+        </tr>
+
+
+
+        <tr id="morph-line">
+            <td class="header tooltip"
+                title="Language-line, using provided morpheme<br/> segmentation."
+            >Morphemes</td>
+            {% for lw in inst.lang %}
+                {% set word_index = loop.index %}
+                {% for m in lw.subwords %}
+                    <td id="{{ m.id }}" class="selectable"
+                        alntype="gw"
+                        waln="{{ m.alignments|map(attribute='id')|join(',') }},{{ m.aligned_words()|map(attribute='id')|join(',') }}"
+                        tags=""
+                        segment="{{ lw.id }}"
+                        colspan="{{ col_widths[word_index-1] - lw.subwords|length + 1 }}"
+                    >{{ m.hyphenated }}</td>
+                {% endfor %}
+            {% endfor %}
+        </tr>
+        <tr class="spacer"></tr>
+
+       <tr id="gloss-words">
+            <td class="header tooltip" title="Word-level gloss tokens. Align with language <br/> line words.">Gloss Words</td>
+            {% for gw in inst.gloss %}
+                <td id="{{ gw.id }}" class="selectable"
+                    alntype="gw"
+                    tags="pos-{{ gw.id }},classpos-{{ gw.id }}"
+                    segment="{{ gw.subwords|map(attribute='id')|join(',') }}"
+                    waln="{{ gw.alignments|map(attribute='id')|join(',') }},{{ gw.aligned_words()|map(attribute='id')|join(',') }}"
+                    colspan="{{ col_widths[loop.index-1] }}">{{ gw.hyphenated }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr id="gloss-pos">
+            <td class="header tooltip" title="POS tags produced by r
+            unning a classifier <br/> directly on the gloss-line token.">W-POS (Classifier)</td>
+            {% for gw, class_tag in class_tags %}
+                <td id="classpos-{{ gw.id }}" class="selectable"
+                    alntype="pos" aln="{{ gw.id }}" colspan="{{ col_widths[loop.index-1] }}">{{ class_tag }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr id="gloss-pos">
+            <td class="header tooltip" title="
+            Word-level POS tags projected from aligned <br/>
+            words in the translation line. <BR/><BR>
+            If multiple gloss-level tags align with the <br/>
+            same word-level token, an order of precedence <br/>
+            is used to pick the more salient tag.">
+                W-POS (Proj)</td>
+            {% for gw in inst.gloss %}
+                <td id="pos-{{ gw.id }}" class="selectable"
+                    alntype="pos" aln="{{ gw.id }}"
+                    colspan="{{ col_widths[loop.index-1] }}">{% if gw.pos %}{{ gw.pos }}{% else %}&empty;{% endif %}</td>
+            {% endfor %}
+        </tr>
+
+        <tr id="gloss-line">
+            <td class="header tooltip" title="Morpheme-level glosses. Align with<BR/> morphemes.">Glosses</td>
+            {% for gw in inst.gloss %}
+                {% set word_index = loop.index %}
+                {% for g in gw.subwords %}
+                    <td id="{{ g.id }}" class="selectable" alntype="g"
+                        waln="{{ g.alignments|map(attribute='id')|join(',') }},{{ g.aligned_words()|map(attribute='id')|join(',') }}"
+                        segment="{{ g.word.id }}"
+                        tags="pos-{{ g.id }}"
+                        colspan="{{ col_widths[word_index-1] - gw.subwords|length + 1 }}"
+                    >{{ g.hyphenated }}</td>
+                {% endfor %}
+            {% endfor %}
+        </tr>
+
+        <tr id="gloss-proj-pos">
+            <td class="header tooltip" title="Morpheme-level POS tags projected from  <br/> aligned words in the translation line.">G-POS (Proj)</td>
+            {% for gw in inst.gloss %}
+                {% set word_index = loop.index %}
+                {% for g in gw.subwords %}
+                     <td id="pos-{{ g.id }}" alntype="pos" aln="{{ g.id }}" class="selectable"
+                     colspan="{{ col_widths[word_index-1] - gw.subwords|length + 1 }}">
+                         {% if g.pos %}{{ g.pos }}{% else %}&empty;{% endif %}</td>
+                {% endfor %}
+
+            {% endfor %}
+        </tr>
+
+        <tr class="spacer"></tr>
+
+        <tr id="trans-line">
+            <td class="header tooltip" title="Translation line words, auto-tokenized.">Translation</td>
+            {% for tw in inst.trans %}
+                <td  id="{{ tw.id }}" class="selectable" alntype="tw" galn="{{ tw.alignments|map(attribute='id')|join(',')}},{{ tw.aligned_lang_words|map(attribute='id')|join(',') }},{{ tw.aligned_words()|map(attribute='id')|join(',') }}" posaln="pos-{{ tw.id }}">{{ tw.string }}</td>
+            {% endfor %}
+        </tr>
+
+        <tr id="trans-pos">
+            <td class="header tooltip" title="POS tags generated using spaCy.">
+                Trans POS
+            </td>
+            {% for tw in inst.trans %}
+                <td id="pos-{{ tw.id }}" class="selectable"
+                    aln="{{ tw.id }}" alntype="pos">{{ tw.pos }}</td>
+            {% endfor %}
+        </tr>
+    </table>
+    {#  Now, add a legend  #}
+        <span class="header">Legend:</span>
+            <div class="legend segment">Segmentation</div>
+            <div class="legend aln-g">Alignment</div>
+            <div class="legend pos-aln">POS Tag</div>
+</div>
+
+<div id="dependencies">
+    <div id="tds">
+        <H3 class="tooltip" title="Dependency structure produced by spaCy on<br/> the translation line.">Translation Dependency Structure</H3>
+        <img src="{{ tds }}"/>
+    </div>
+    <div id="lds">
+        <H3 class="tooltip" title="Dependency structure produced by projecting<br/> translation DS via word alignments.">(Projected) Language Dependency Structure</H3>
+        {% if lds %}
+            <img src="{{ lds }}"/>
+        {% else %}
+            <P>None available. Projection likely failed.</P>
+        {% endif %}
+    </div>
+</div>

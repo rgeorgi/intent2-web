@@ -1,0 +1,126 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+#moreinfo {
+    font-family: 'Roboto', sans-serif !important;
+    margin-bottom: 15px;
+}
+
+
+#instructions {
+    text-align: left;
+    width:auto;
+}
+
+#igt-div {
+    text-align: center;
+    margin-left: 50px;
+}
+
+#igt-input {
+    font-family: 'Inconsolata', monospace;
+}
+
+input#process {
+    background-color: #5de6e5;
+    text-align: center;
+    border: none;
+    padding: 10px 32px;
+    font-size: large;
+    margin: 10px;
+    font-family: 'Archivo Black', sans-serif;
+}
+
+input#process:active {
+    background-color: grey;
+}
+
+#error {
+    color: red;
+    font-size: small;
+    display: none;
+}
+
+#instance div#table-container {
+    border: thin solid black;
+    padding: 15px;
+}
+
+#instance * {
+    font-family: 'Inconsolata', monospace;
+}
+
+#instance td{
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+}
+
+tr.spacer {
+    height: 15px;
+}
+
+/* Alignment info */
+td {
+    border: solid thin rgba(0, 0, 0, 0);
+}
+
+td.selectable:hover {
+    border: solid thin black;
+    background-color: rgba(172, 219, 230, 0.27);
+}
+
+#powerTip {
+    width: 200px;
+    font-size: x-small;
+    white-space: pre-line;
+}
+
+td.header {
+    font-weight: bold;
+    min-width: 150px;
+}
+
+/* Legend Styles */
+.legend {
+    display: inline-block;
+    padding: 8px;
+    margin-top:20px;
+}
+
+
+.aln-word {
+    background-color: lightgreen;
+}
+
+.pos-aln {
+    background-color: lightgreen;
+}
+
+.aln-g {
+    background-color: lightcoral;
+}
+
+.segment {
+    background-color: mediumpurple;
+}
+
+/* Images */
+#dependencies {
+    width:100%;
+}
+
+#dependencies div {
+    float: left;
+    max-width: 44%;
+    text-align: center;
+}
+
+#dependencies img {
+    max-width: 100%;
+}
+
+#lds {
+    margin-left:10%;
+}
