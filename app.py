@@ -12,6 +12,7 @@ from intent2.processing import load_spacy, process_trans
 from intent2.projection import project_pos, project_ds
 
 app = Flask(__name__)
+application=app # for mod_wsgi
 
 # Preload the models required
 load_spacy()
