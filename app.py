@@ -43,7 +43,7 @@ def process_instance(text: List[str]) -> Instance:
         project_ds(inst)
     except DependencyException:
         pass
-    predictions = classifier.classify(inst.gloss)
+    predictions = classifier.classify(inst.gloss, projected_tags=True, subword_tags=True, use_vocab=True)
 
     return inst, predictions
 
